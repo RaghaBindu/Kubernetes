@@ -417,6 +417,8 @@ Helm
 
 Namespaces
 
+YAML
+
 PVC
 
 RC,RS
