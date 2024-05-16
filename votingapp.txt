@@ -1,0 +1,426 @@
+root@ip-172-31-28-60:~# cd $home
+root@ip-172-31-28-60:~# git clone https://github.com/ashishrpandey/example-voting-app
+Cloning into 'example-voting-app'...
+remote: Enumerating objects: 494, done.
+remote: Total 494 (delta 0), reused 0 (delta 0), pack-reused 494
+Receiving objects: 100% (494/494), 236.18 KiB | 10.74 MiB/s, done.
+Resolving deltas: 100% (179/179), done.
+root@ip-172-31-28-60:~# cd /root/example-voting-app
+root@ip-172-31-28-60:~/example-voting-app# ls -lrth
+total 112K
+drwxr-xr-x 3 root root 4.0K May 16 11:17 worker
+drwxr-xr-x 4 root root 4.0K May 16 11:17 vote
+drwxr-xr-x 5 root root 4.0K May 16 11:17 result
+drwxr-xr-x 2 root root 4.0K May 16 11:17 k8s-specifications
+-rw-r--r-- 1 root root  609 May 16 11:17 dockercloud.yml
+-rw-r--r-- 1 root root 1.7K May 16 11:17 docker-stack.yml
+-rw-r--r-- 1 root root  808 May 16 11:17 docker-compose.yml
+-rw-r--r-- 1 root root  400 May 16 11:17 docker-compose-simple.yml
+-rw-r--r-- 1 root root  808 May 16 11:17 docker-compose-javaworker.yml
+-rw-r--r-- 1 root root  54K May 16 11:17 architecture.png
+-rw-r--r-- 1 root root 2.2K May 16 11:17 README.md
+-rw-r--r-- 1 root root  185 May 16 11:17 MAINTAINERS
+-rw-r--r-- 1 root root  11K May 16 11:17 LICENSE
+root@ip-172-31-28-60:~/example-voting-app# cd k8s-specifications
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# ll
+total 44
+drwxr-xr-x 2 root root 4096 May 16 11:17 ./
+drwxr-xr-x 8 root root 4096 May 16 11:17 ../
+-rw-r--r-- 1 root root  401 May 16 11:17 db-deployment.yaml
+-rw-r--r-- 1 root root  146 May 16 11:17 db-service.yaml
+-rw-r--r-- 1 root root  402 May 16 11:17 redis-deployment.yaml
+-rw-r--r-- 1 root root  152 May 16 11:17 redis-service.yaml
+-rw-r--r-- 1 root root  299 May 16 11:17 result-deployment.yaml
+-rw-r--r-- 1 root root  195 May 16 11:17 result-service.yaml
+-rw-r--r-- 1 root root  289 May 16 11:17 vote-deployment.yaml
+-rw-r--r-- 1 root root  192 May 16 11:17 vote-service.yaml
+-rw-r--r-- 1 root root  292 May 16 11:17 worker-deployment.yaml
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# cd..
+cd..: command not found
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# cd ..
+root@ip-172-31-28-60:~/example-voting-app# cd k8s-specifications
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl apply -f
+error: flag needs an argument: 'f' in -f
+See 'kubectl apply --help' for usage.
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl apply --help
+Apply a configuration to a resource by file name or stdin. The resource name
+must be specified. This resource will be created if it doesn't exist yet. To use
+'apply', always create the resource initially with either 'apply' or 'create
+--save-config'.
+
+ JSON and YAML formats are accepted.
+
+ Alpha Disclaimer: the --prune functionality is not yet complete. Do not use
+unless you are aware of what the current state is. See
+https://issues.k8s.io/34274.
+
+Examples:
+  # Apply the configuration in pod.json to a pod
+  kubectl apply -f ./pod.json
+
+  # Apply resources from a directory containing kustomization.yaml - e.g.
+dir/kustomization.yaml
+  kubectl apply -k dir/
+
+  # Apply the JSON passed into stdin to a pod
+  cat pod.json | kubectl apply -f -
+
+  # Apply the configuration from all files that end with '.json' - i.e. expand
+wildcard characters in file names
+  kubectl apply -f '*.json'
+
+  # Note: --prune is still in Alpha
+  # Apply the configuration in manifest.yaml that matches label app=nginx and
+delete all other resources that are not in the file and match label app=nginx
+  kubectl apply --prune -f manifest.yaml -l app=nginx
+
+  # Apply the configuration in manifest.yaml and delete all the other config
+maps that are not in the file
+  kubectl apply --prune -f manifest.yaml --all
+--prune-allowlist=core/v1/ConfigMap
+
+Available Commands:
+  edit-last-applied   Edit latest last-applied-configuration annotations of a
+resource/object
+  set-last-applied    Set the last-applied-configuration annotation on a live
+object to match the contents of a file
+  view-last-applied   View the latest last-applied-configuration annotations of
+a resource/object
+
+Options:
+    --all=false:
+        Select all resources in the namespace of the specified resource types.
+
+    --allow-missing-template-keys=true:
+        If true, ignore any errors in templates when a field or map key is
+        missing in the template. Only applies to golang and jsonpath output
+        formats.
+
+    --cascade='background':
+        Must be "background", "orphan", or "foreground". Selects the deletion
+        cascading strategy for the dependents (e.g. Pods created by a
+        ReplicationController). Defaults to background.
+
+    --dry-run='none':
+        Must be "none", "server", or "client". If client strategy, only print
+        the object that would be sent, without sending it. If server strategy,
+        submit server-side request without persisting the resource.
+
+    --field-manager='kubectl-client-side-apply':
+        Name of the manager used to track field ownership.
+
+    -f, --filename=[]:
+        The files that contain the configurations to apply.
+
+    --force=false:
+        If true, immediately remove resources from API and bypass graceful
+        deletion. Note that immediate deletion of some resources may result in
+        inconsistency or data loss and requires confirmation.
+
+    --force-conflicts=false:
+        If true, server-side apply will force the changes against conflicts.
+
+    --grace-period=-1:
+        Period of time in seconds given to the resource to terminate
+        gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can
+        only be set to 0 when --force is true (force deletion).
+
+    -k, --kustomize='':
+        Process a kustomization directory. This flag can't be used together
+        with -f or -R.
+
+    --openapi-patch=true:
+        If true, use openapi to calculate diff when the openapi presents and
+        the resource can be found in the openapi spec. Otherwise, fall back to
+        use baked-in types.
+
+    -o, --output='':
+        Output format. One of: (json, yaml, name, go-template,
+        go-template-file, template, templatefile, jsonpath, jsonpath-as-json,
+        jsonpath-file).
+
+    --overwrite=true:
+        Automatically resolve conflicts between the modified and live
+        configuration by using values from the modified configuration
+
+    --prune=false:
+        Automatically delete resource objects, that do not appear in the
+        configs and are created by either apply or create --save-config.
+        Should be used with either -l or --all.
+
+    --prune-allowlist=[]:
+        Overwrite the default allowlist with <group/version/kind> for --prune
+
+    -R, --recursive=false:
+        Process the directory used in -f, --filename recursively. Useful when
+        you want to manage related manifests organized within the same
+        directory.
+
+    -l, --selector='':
+        Selector (label query) to filter on, supports '=', '==', and
+        '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy
+        all of the specified label constraints.
+
+    --server-side=false:
+        If true, apply runs in the server instead of the client.
+
+    --show-managed-fields=false:
+        If true, keep the managedFields when printing objects in JSON or YAML
+        format.
+
+    --template='':
+        Template string or path to template file to use when -o=go-template,
+        -o=go-template-file. The template format is golang templates
+        [http://golang.org/pkg/text/template/#pkg-overview].
+
+    --timeout=0s:
+        The length of time to wait before giving up on a delete, zero means
+        determine a timeout from the size of the object
+
+    --validate='strict':
+        Must be one of: strict (or true), warn, ignore (or false).             "true" or
+        "strict" will use a schema to validate the input and fail the request
+        if invalid. It will perform server side validation if
+        ServerSideFieldValidation is enabled on the api-server, but will fall
+        back to less reliable client-side validation if not.            "warn" will
+        warn about unknown or duplicate fields without blocking the request if
+        server-side field validation is enabled on the API server, and behave
+        as "ignore" otherwise.          "false" or "ignore" will not perform any
+        schema validation, silently dropping any unknown or duplicate fields.
+
+    --wait=false:
+        If true, wait for resources to be gone before returning. This waits
+        for finalizers.
+
+Usage:
+  kubectl apply (-f FILENAME | -k DIRECTORY) [options]
+
+Use "kubectl <command> --help" for more information about a given command.
+Use "kubectl options" for a list of global command-line options (applies to all
+commands).
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl apply -f .
+deployment.apps/db created
+service/db created
+deployment.apps/redis created
+service/redis created
+deployment.apps/result created
+service/result created
+deployment.apps/vote created
+service/vote created
+deployment.apps/worker created
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# ll
+total 44
+drwxr-xr-x 2 root root 4096 May 16 11:17 ./
+drwxr-xr-x 8 root root 4096 May 16 11:17 ../
+-rw-r--r-- 1 root root  401 May 16 11:17 db-deployment.yaml
+-rw-r--r-- 1 root root  146 May 16 11:17 db-service.yaml
+-rw-r--r-- 1 root root  402 May 16 11:17 redis-deployment.yaml
+-rw-r--r-- 1 root root  152 May 16 11:17 redis-service.yaml
+-rw-r--r-- 1 root root  299 May 16 11:17 result-deployment.yaml
+-rw-r--r-- 1 root root  195 May 16 11:17 result-service.yaml
+-rw-r--r-- 1 root root  289 May 16 11:17 vote-deployment.yaml
+-rw-r--r-- 1 root root  192 May 16 11:17 vote-service.yaml
+-rw-r--r-- 1 root root  292 May 16 11:17 worker-deployment.yaml
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl get po
+NAME                      READY   STATUS              RESTARTS   AGE
+db-58cc845644-fcxkr       0/1     ContainerCreating   0          30s
+nginx-astha               1/1     Running             0          7d5h
+nginx-bindu               1/1     Running             0          7d5h
+redis-6878558678-t7cmd    0/1     ContainerCreating   0          30s
+result-86bc6f7b5d-gc2dm   0/1     ContainerCreating   0          30s
+vote-7d884dd585-rx9t4     0/1     ContainerCreating   0          30s
+worker-6fc5d5b668-62cns   0/1     ContainerCreating   0          30s
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl get po -o wide
+NAME                      READY   STATUS              RESTARTS   AGE    IP           NODE              NOMINATED NODE   READINESS GATES
+db-58cc845644-fcxkr       1/1     Running             0          53s    10.32.0.10   ip-172-31-28-60   <none>           <none>
+nginx-astha               1/1     Running             0          7d5h   10.32.0.4    ip-172-31-28-60   <none>           <none>
+nginx-bindu               1/1     Running             0          7d5h   10.32.0.5    ip-172-31-28-60   <none>           <none>
+redis-6878558678-t7cmd    0/1     ContainerCreating   0          53s    <none>       ip-172-31-28-60   <none>           <none>
+result-86bc6f7b5d-gc2dm   0/1     ContainerCreating   0          53s    <none>       ip-172-31-28-60   <none>           <none>
+vote-7d884dd585-rx9t4     0/1     ContainerCreating   0          53s    <none>       ip-172-31-28-60   <none>           <none>
+worker-6fc5d5b668-62cns   1/1     Running             0          53s    10.32.0.7    ip-172-31-28-60   <none>           <none>
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl get po -o wide
+NAME                      READY   STATUS    RESTARTS   AGE    IP           NODE              NOMINATED NODE   READINESS GATES
+db-58cc845644-fcxkr       1/1     Running   0          81s    10.32.0.10   ip-172-31-28-60   <none>           <none>
+nginx-astha               1/1     Running   0          7d5h   10.32.0.4    ip-172-31-28-60   <none>           <none>
+nginx-bindu               1/1     Running   0          7d5h   10.32.0.5    ip-172-31-28-60   <none>           <none>
+redis-6878558678-t7cmd    1/1     Running   0          81s    10.32.0.6    ip-172-31-28-60   <none>           <none>
+result-86bc6f7b5d-gc2dm   1/1     Running   0          81s    10.32.0.8    ip-172-31-28-60   <none>           <none>
+vote-7d884dd585-rx9t4     1/1     Running   0          81s    10.32.0.9    ip-172-31-28-60   <none>           <none>
+worker-6fc5d5b668-62cns   1/1     Running   0          81s    10.32.0.7    ip-172-31-28-60   <none>           <none>
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# ^C
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications#
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po vote-7d884dd585-rx9t4
+pod "vote-7d884dd585-rx9t4" deleted
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po worker-6fc5d5b668-62cns
+pod "worker-6fc5d5b668-62cns" deleted
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po db-58cc845644-fcxkr
+pod "db-58cc845644-fcxkr" deleted
+root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# cd ..
+root@ip-172-31-28-60:~/example-voting-app# cd ..
+root@ip-172-31-28-60:~# kubectl logs vote-7d884dd585-kxdf7
+[2024-05-16 11:30:31 +0000] [1] [INFO] Starting gunicorn 21.2.0
+[2024-05-16 11:30:31 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
+[2024-05-16 11:30:31 +0000] [1] [INFO] Using worker: sync
+[2024-05-16 11:30:31 +0000] [7] [INFO] Booting worker with pid: 7
+[2024-05-16 11:30:31 +0000] [8] [INFO] Booting worker with pid: 8
+[2024-05-16 11:30:31 +0000] [9] [INFO] Booting worker with pid: 9
+[2024-05-16 11:30:31 +0000] [10] [INFO] Booting worker with pid: 10
+root@ip-172-31-28-60:~# kubectl logs worker-6fc5d5b668-ssnbw
+Connected to db
+Found redis at 10.109.178.131
+Connecting to redis
+root@ip-172-31-28-60:~#
+
+root@ip-172-31-28-60:~# kubectl logs worker-6fc5d5b668-62cns
+Error from server (NotFound): pods "worker-6fc5d5b668-62cns" not found
+root@ip-172-31-28-60:~# kubectl get po
+NAME                      READY   STATUS    RESTARTS       AGE
+db-58cc845644-ptt44       1/1     Running   0              2m17s
+nginx-astha               1/1     Running   0              7d5h
+nginx-bindu               1/1     Running   0              7d5h
+redis-6878558678-t7cmd    1/1     Running   0              12m
+result-86bc6f7b5d-gc2dm   1/1     Running   1 (107s ago)   12m
+vote-7d884dd585-kxdf7     1/1     Running   0              3m2s
+worker-6fc5d5b668-ssnbw   1/1     Running   1 (107s ago)   2m30s
+root@ip-172-31-28-60:~# kubectl logs db-58cc845644-ptt44
+The files belonging to this database system will be owned by user "postgres".
+This user must also own the server process.
+
+The database cluster will be initialized with locale "en_US.utf8".
+The default database encoding has accordingly been set to "UTF8".
+The default text search configuration will be set to "english".
+
+Data page checksums are disabled.
+
+fixing permissions on existing directory /var/lib/postgresql/data ... ok
+creating subdirectories ... ok
+selecting default max_connections ... 100
+selecting default shared_buffers ... 128MB
+creating configuration files ... ok
+creating template1 database in /var/lib/postgresql/data/base/1 ... ok
+initializing pg_authid ... ok
+setting password ... ok
+initializing dependencies ... ok
+creating system views ... ok
+loading system objects' descriptions ... ok
+creating collations ... ok
+creating conversions ... ok
+creating dictionaries ... ok
+setting privileges on built-in objects ... ok
+creating information schema ... ok
+loading PL/pgSQL server-side language ... ok
+vacuuming database template1 ... ok
+copying template1 to template0 ... ok
+copying template1 to postgres ... ok
+syncing data to disk ... ok
+
+WARNING: enabling "trust" authentication for local connections
+You can change this by editing pg_hba.conf or using the option -A, or
+--auth-local and --auth-host, the next time you run initdb.
+
+Success. You can now start the database server using:
+
+    postgres -D /var/lib/postgresql/data
+or
+    pg_ctl -D /var/lib/postgresql/data -l logfile start
+
+****************************************************
+WARNING: No password has been set for the database.
+         This will allow anyone with access to the
+         Postgres port to access your database. In
+         Docker's default configuration, this is
+         effectively any other container on the same
+         system.
+
+         Use "-e POSTGRES_PASSWORD=password" to set
+         it in "docker run".
+****************************************************
+waiting for server to start....LOG:  database system was shut down at 2024-05-16 11:31:18 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ done
+server started
+
+/usr/local/bin/docker-entrypoint.sh: ignoring /docker-entrypoint-initdb.d/*
+
+LOG:  received fast shutdown request
+LOG:  aborting any active transactions
+LOG:  autovacuum launcher shutting down
+LOG:  shutting down
+waiting for server to shut down....LOG:  database system is shut down
+ done
+server stopped
+
+PostgreSQL init process complete; ready for start up.
+
+LOG:  database system was shut down at 2024-05-16 11:31:19 UTC
+LOG:  MultiXact member wraparound protections are now enabled
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+ERROR:  relation "votes" does not exist at character 38
+STATEMENT:  SELECT vote, COUNT(id) AS count FROM votes GROUP BY vote
+ERROR:  relation "votes" does not exist at character 38
+STATEMENT:  SELECT vote, COUNT(id) AS count FROM votes GROUP BY vote
+root@ip-172-31-28-60:~# kubectl get po
+NAME                      READY   STATUS    RESTARTS       AGE
+db-58cc845644-ptt44       1/1     Running   0              5m34s
+nginx-astha               1/1     Running   0              7d5h
+nginx-bindu               1/1     Running   0              7d5h
+redis-6878558678-t7cmd    1/1     Running   0              16m
+result-86bc6f7b5d-gc2dm   1/1     Running   1 (5m4s ago)   16m
+vote-7d884dd585-kxdf7     1/1     Running   0              6m19s
+worker-6fc5d5b668-ssnbw   1/1     Running   1 (5m4s ago)   5m47s
+
+
+SUMMARY
+
+1. Commands that you used during the assignment. (not Mandatory, if you have time, please write it)
+
+cd $home
+
+git clone  https://github.com/ashishrpandey/example-voting-app
+
+kubectl apply -f .
+
+kubectl get po -o wide 
+
+kubectl get svc
+
+kubectl delete po vote-7d884dd585-cgx9z
+
+kubectl delete po worker-6fc5d5b668-62cns
+
+kubectl delete po db-58cc845644-fcxkr
+
+kubectl logs vote-7d884dd585-kxdf7
+
+kubectl logs db-58cc845644-ptt44
+ 
+ 
+2. your comment on WHY result app STOPPED working after db pod stop
+
+As db pod contains all the data and that data appears in result app and after deleting db pod the data is completely lost so app will STOP working.
+ 
+3. your answer to HOW YOU MADE THE RESULT POD work.
+
+BY voting again and it will appear the result in web browser hence the result pod will work as db pod contains the data .
+ 
+4. Some jargons (just names are enough- dont need sentences) that you learnt from the  Training session
+
+Pods
+
+Containers
+
+Helm
+
+Namespaces
+
+PVC
+
+RC,RS
+
+CNI(Container Network Interface)
+
+
