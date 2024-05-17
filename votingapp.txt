@@ -1,4 +1,4 @@
-root@ip-172-31-28-60:~# cd $home
+root@ip-172-31-28-60:~# cd /root/home
 root@ip-172-31-28-60:~# git clone https://github.com/ashishrpandey/example-voting-app
 Cloning into 'example-voting-app'...
 remote: Enumerating objects: 494, done.
@@ -250,14 +250,28 @@ vote-7d884dd585-rx9t4     1/1     Running   0          81s    10.32.0.9    ip-17
 worker-6fc5d5b668-62cns   1/1     Running   0          81s    10.32.0.7    ip-172-31-28-60   <none>           <none>
 root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# ^C
 root@ip-172-31-28-60:~/example-voting-app/k8s-specifications#
-root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po vote-7d884dd585-rx9t4
-pod "vote-7d884dd585-rx9t4" deleted
-root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po worker-6fc5d5b668-62cns
-pod "worker-6fc5d5b668-62cns" deleted
-root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# kubectl delete po db-58cc845644-fcxkr
-pod "db-58cc845644-fcxkr" deleted
-root@ip-172-31-28-60:~/example-voting-app/k8s-specifications# cd ..
-root@ip-172-31-28-60:~/example-voting-app# cd ..
+root@ip-172-31-28-60:~# kubectl get svc
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+db           ClusterIP   10.107.197.244   <none>        5432/TCP         19h
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP          9d
+redis        ClusterIP   10.109.178.131   <none>        6379/TCP         19h
+result       NodePort    10.105.144.208   <none>        5001:31001/TCP   19h
+vote         NodePort    10.101.55.37     <none>        5000:31000/TCP   19h
+root@ip-172-31-28-60:~# kubectl get po
+NAME                      READY   STATUS    RESTARTS      AGE
+db-58cc845644-ptt44       1/1     Running   0             19h
+nginx-astha               1/1     Running   0             8d
+nginx-bindu               1/1     Running   0             8d
+redis-6878558678-t7cmd    1/1     Running   0             19h
+result-86bc6f7b5d-gc2dm   1/1     Running   1 (19h ago)   19h
+vote-7d884dd585-kxdf7     1/1     Running   0             19h
+worker-6fc5d5b668-ssnbw   1/1     Running   1 (19h ago)   19h
+root@ip-172-31-28-60:~# kubectl delete po vote-7d884dd585-kxdf7
+pod "vote-7d884dd585-kxdf7" deleted
+root@ip-172-31-28-60:~# kubectl delete po worker-6fc5d5b668-ssnbw
+pod "worker-6fc5d5b668-ssnbw" deleted
+root@ip-172-31-28-60:~# kubectl delete po db-58cc845644-ptt44
+pod "db-58cc845644-ptt44" deleted
 root@ip-172-31-28-60:~# kubectl logs vote-7d884dd585-kxdf7
 [2024-05-16 11:30:31 +0000] [1] [INFO] Starting gunicorn 21.2.0
 [2024-05-16 11:30:31 +0000] [1] [INFO] Listening at: http://0.0.0.0:80 (1)
@@ -405,7 +419,7 @@ As db pod contains all the data and that data appears in result app and after de
  
 3. your answer to HOW YOU MADE THE RESULT POD work.
 
-BY voting again and it will appear the result in web browser hence the result pod will work as db pod contains the data .
+After db pod restarted afte deleting and voting again and it will appear the result in web browser hence the result pod will work as db pod contains the data .
  
 4. Some jargons (just names are enough- dont need sentences) that you learnt from the  Training session
 
